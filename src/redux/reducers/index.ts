@@ -24,6 +24,14 @@ export default (state = defaultState, action: AnyAction) => {
         displayText: '0',
       };
     }
+    case actions.CLICK_PERCENTAGE: {
+      const { displayText } = state;
+
+      return {
+        ...state,
+        displayText: `${+displayText / 100}`,
+      };
+    }
     case actions.CLICK_NUMBER: {
       const { evalAry, operator } = state;
       const nextEvalAry = [...evalAry];
@@ -67,7 +75,7 @@ export default (state = defaultState, action: AnyAction) => {
     case actions.CALCULATE: {
       const { displayText, evalAry, operator } = state;
       const copyEvalAry = [...evalAry];
-      let nextDisplayText = displayText;
+      let nextDisplayText = +displayText;
 
       if (!!operator) {
         copyEvalAry.push(operator, displayText);
@@ -77,9 +85,12 @@ export default (state = defaultState, action: AnyAction) => {
         nextDisplayText = eval(copyEvalAry.join(' '));
       }
 
+      // To fix 0.1 + 0.2 !== 0.3 issue
+      nextDisplayText = +nextDisplayText.toPrecision(12);
+
       return {
         ...state,
-        displayText: formatText(`${nextDisplayText}`),
+        displayText: formatText(nextDisplayText),
         evalAry: [],
         operator: null,
       };

@@ -2,29 +2,30 @@ import { State } from './types';
 
 const MAX_DISPLAY_LEN = 9;
 
-export function formatText(value: string) {
+export function formatText(value: string | number) {
+  const newValue = typeof value === 'string' ? value : `${value}`;
   let temp = 0;
-  let newValue = '';
+  let result = '';
 
-  for (const v of value) {
+  for (const v of newValue) {
     if (!isNaN(+v)) {
       temp += 1;
     }
 
-    newValue += v;
+    result += v;
 
     if (temp === MAX_DISPLAY_LEN) {
       break;
     }
   }
 
-  return newValue;
+  return result;
 }
 
 export function getNextDisplayText(
   state: State,
   actionPayload: Record<string, any>
-) {
+): string {
   const { displayText, operator } = state;
   const { value } = actionPayload;
 

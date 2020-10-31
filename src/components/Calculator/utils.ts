@@ -17,6 +17,12 @@ export function dispatchHelpers(dispatch: Dispatch) {
     });
   };
 
+  const handlePercentageClick = () => {
+    dispatch({
+      type: actions.CLICK_PERCENTAGE,
+    });
+  };
+
   const handleNumber = (value: string) => {
     dispatch({
       type: actions.CLICK_NUMBER,
@@ -51,6 +57,7 @@ export function dispatchHelpers(dispatch: Dispatch) {
   };
 
   return {
+    handlePercentageClick,
     handleNumber,
     handleClickAll,
     handleDecimal,
@@ -61,6 +68,10 @@ export function dispatchHelpers(dispatch: Dispatch) {
 
 export function formatDisplayText(value: string) {
   const hasDecimal = /\./.test(value);
+
+  if (+value < 0.000001) {
+    return value;
+  }
 
   if (hasDecimal) {
     const split = value.split('.');

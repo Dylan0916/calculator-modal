@@ -21,6 +21,7 @@ function Button(props: Props) {
   const dispatch = useDispatch();
   const {
     handleClickAll,
+    handlePercentageClick,
     handleNumber,
     handleDecimal,
     handleOperator,
@@ -31,6 +32,10 @@ function Button(props: Props) {
     switch (type) {
       case BUTTON_TYPE.CLEAR_ALL: {
         handleClickAll();
+        break;
+      }
+      case BUTTON_TYPE.PERCENTAGE: {
+        handlePercentageClick();
         break;
       }
       case BUTTON_TYPE.NUMBER: {
