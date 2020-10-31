@@ -10,29 +10,18 @@ type HandleOperatorParam =
   | BUTTON_TYPE.MULTIPLY
   | BUTTON_TYPE.DIVIDE;
 
+type HandleOtherFunc =
+  | BUTTON_TYPE.CLEAR_ALL
+  | BUTTON_TYPE.PERCENTAGE
+  | BUTTON_TYPE.INVERT
+  | BUTTON_TYPE.DECIMAL
+  | BUTTON_TYPE.CALCULATE;
+
 export function dispatchHelpers(dispatch: Dispatch) {
-  const handleClickAll = () => {
-    dispatch({
-      type: actions.CLEAR,
-    });
-  };
-
-  const handlePercentageClick = () => {
-    dispatch({
-      type: actions.CLICK_PERCENTAGE,
-    });
-  };
-
   const handleNumber = (value: string) => {
     dispatch({
       type: actions.CLICK_NUMBER,
       payload: { value },
-    });
-  };
-
-  const handleDecimal = () => {
-    dispatch({
-      type: actions.CLICK_DECIMAL,
     });
   };
 
@@ -50,19 +39,24 @@ export function dispatchHelpers(dispatch: Dispatch) {
     });
   };
 
-  const handleCalculate = () => {
+  const handleOtherFunc = (buttonType: HandleOtherFunc) => {
+    const actionMapping = {
+      [BUTTON_TYPE.CLEAR_ALL]: actions.CLEAR,
+      [BUTTON_TYPE.INVERT]: actions.CLICK_INVERT,
+      [BUTTON_TYPE.PERCENTAGE]: actions.CLICK_PERCENTAGE,
+      [BUTTON_TYPE.DECIMAL]: actions.CLICK_DECIMAL,
+      [BUTTON_TYPE.CALCULATE]: actions.CALCULATE,
+    };
+
     dispatch({
-      type: actions.CALCULATE,
+      type: actionMapping[buttonType],
     });
   };
 
   return {
-    handlePercentageClick,
     handleNumber,
-    handleClickAll,
-    handleDecimal,
     handleOperator,
-    handleCalculate,
+    handleOtherFunc,
   };
 }
 

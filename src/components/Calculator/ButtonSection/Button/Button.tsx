@@ -19,31 +19,14 @@ function Button(props: Props) {
     data: { type, defaultText, getText },
   } = props;
   const dispatch = useDispatch();
-  const {
-    handleClickAll,
-    handlePercentageClick,
-    handleNumber,
-    handleDecimal,
-    handleOperator,
-    handleCalculate,
-  } = dispatchHelpers(dispatch);
+  const { handleNumber, handleOperator, handleOtherFunc } = dispatchHelpers(
+    dispatch
+  );
 
   const onClick = () => {
     switch (type) {
-      case BUTTON_TYPE.CLEAR_ALL: {
-        handleClickAll();
-        break;
-      }
-      case BUTTON_TYPE.PERCENTAGE: {
-        handlePercentageClick();
-        break;
-      }
       case BUTTON_TYPE.NUMBER: {
         handleNumber(defaultText);
-        break;
-      }
-      case BUTTON_TYPE.DECIMAL: {
-        handleDecimal();
         break;
       }
       case BUTTON_TYPE.ADD:
@@ -53,8 +36,12 @@ function Button(props: Props) {
         handleOperator(type);
         break;
       }
+      case BUTTON_TYPE.CLEAR_ALL:
+      case BUTTON_TYPE.INVERT:
+      case BUTTON_TYPE.PERCENTAGE:
+      case BUTTON_TYPE.DECIMAL:
       case BUTTON_TYPE.CALCULATE: {
-        handleCalculate();
+        handleOtherFunc(type);
         break;
       }
       default:

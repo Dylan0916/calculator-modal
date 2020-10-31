@@ -26,8 +26,12 @@ export function getNextDisplayText(
   state: State,
   actionPayload: Record<string, any>
 ): string {
-  const { displayText, operator } = state;
+  const { displayText, operator, isUseInvert } = state;
   const { value } = actionPayload;
+
+  if (isUseInvert) {
+    return `-${value}`;
+  }
 
   if (displayText === '0' || !!operator) {
     return value;

@@ -8,6 +8,7 @@ const defaultState: State = {
   displayText: '0',
   evalAry: [],
   operator: null,
+  isUseInvert: false,
 };
 
 export default (state = defaultState, action: AnyAction) => {
@@ -22,6 +23,24 @@ export default (state = defaultState, action: AnyAction) => {
       return {
         ...state,
         displayText: '0',
+      };
+    }
+    case actions.CLICK_INVERT: {
+      const { displayText, operator, isUseInvert } = state;
+
+      if (operator) {
+        return {
+          ...state,
+          isUseInvert: !isUseInvert,
+        };
+      }
+
+      const nextText =
+        displayText === '0' ? `-${displayText}` : `${+displayText * -1}`;
+
+      return {
+        ...state,
+        displayText: nextText,
       };
     }
     case actions.CLICK_PERCENTAGE: {
@@ -90,9 +109,8 @@ export default (state = defaultState, action: AnyAction) => {
 
       return {
         ...state,
+        ...defaultState,
         displayText: formatText(nextDisplayText),
-        evalAry: [],
-        operator: null,
       };
     }
     default: {
