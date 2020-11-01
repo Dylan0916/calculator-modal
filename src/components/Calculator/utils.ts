@@ -111,6 +111,10 @@ export function getOffset(
   };
 }
 
+export function getValidValue(value: number, limit: number) {
+  return Math.max(value, -limit + 20);
+}
+
 export function enableCalculatorDrag(calculatorRef: RefObject<HTMLDivElement>) {
   if (!calculatorRef.current) {
     return null;
@@ -129,10 +133,14 @@ export function enableCalculatorDrag(calculatorRef: RefObject<HTMLDivElement>) {
       concatAll(),
       withLatestFrom(mouseDown$, (move: any, down: any) => {
         const { x: offsetX, y: offsetY } = getOffset(calculatorRef, down);
+        const {
+          width: wrapperWidth,
+          height: wrapperHeight,
+        } = calculatorRef.current!.getBoundingClientRect();
 
         return {
-          x: move.clientX - offsetX,
-          y: move.clientY - offsetY,
+          x: getValidValue(move.clientX - offsetX, wrapperWidth),
+          y: getValidValue(move.clientY - offsetY, wrapperHeight),
         };
       })
     )
