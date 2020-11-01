@@ -8,7 +8,12 @@ import {
   buttonGray,
   white,
 } from '../../../../constants/colors';
-import { BUTTON_TYPE } from '../../constants';
+import { FONT_SIZE } from '../../../../constants/misc';
+import {
+  BUTTON_TYPE,
+  CALCULATE_CONTAINER_MIDDLE_WIDTH,
+  CALCULATE_CONTAINER_WIDTH,
+} from '../../constants';
 
 interface ButtonProps extends ButtonHTMLAttributes<HTMLButtonElement> {
   text: string;
@@ -52,6 +57,19 @@ const buttonStyle = ({ text, buttonType }: ButtonProps) => {
   }
 };
 
+const getContainerWidth = () => {
+  if (window.innerWidth > 768) {
+    return CALCULATE_CONTAINER_WIDTH;
+  }
+
+  return window.innerWidth > 480
+    ? CALCULATE_CONTAINER_MIDDLE_WIDTH
+    : window.innerWidth;
+};
+
+const gridGap = FONT_SIZE / 2;
+const buttonHeight = (getContainerWidth() - FONT_SIZE * 2 - gridGap * 3) / 4;
+
 export const S = {
   Button: styled.button`
     cursor: pointer;
@@ -60,6 +78,8 @@ export const S = {
     font-size: 1.5em;
     border: none;
     border-radius: 50%;
+    padding: 0;
+    height: ${buttonHeight}px;
     ${buttonStyle};
   ` as FC<ButtonProps>,
 };

@@ -1,18 +1,44 @@
 import styled from 'styled-components';
 
 import { darkBlue, lightBlue, white } from '../../constants/colors';
-import { DISPLAY_ROW, TOTAL_COLUMNS, TOTAL_ROWS } from './constants';
+import {
+  CALCULATE_CONTAINER_MIDDLE_WIDTH,
+  CALCULATE_CONTAINER_WIDTH,
+  DISPLAY_ROW,
+  TOTAL_COLUMNS,
+  TOTAL_ROWS,
+} from './constants';
 
 export const S = {
-  Container: styled.div`
-    width: 480px;
-    height: 100vh;
+  OuterBox: styled.div`
+    overflow: hidden;
+    width: 100%;
+
+    @media (max-width: 480px) {
+      overflow-y: scroll;
+      height: 50vh;
+      position: absolute;
+      left: 0;
+      bottom: 0;
+    }
+  `,
+  InnerBox: styled.div`
+    width: ${CALCULATE_CONTAINER_WIDTH}px;
+    height: 100%;
     background: linear-gradient(${lightBlue}, ${darkBlue});
     padding: 1em;
     display: grid;
     grid-template-columns: repeat(${TOTAL_COLUMNS}, 1fr);
     grid-template-rows: repeat(${TOTAL_ROWS}, 1fr);
     grid-gap: 0.5em;
+
+    @media (max-width: 768px) {
+      width: ${CALCULATE_CONTAINER_MIDDLE_WIDTH}px;
+    }
+    @media (max-width: 480px) {
+      width: 100%;
+      height: 100vh;
+    }
   `,
   DisplaySection: styled.div`
     color: ${white};

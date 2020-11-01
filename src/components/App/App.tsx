@@ -1,12 +1,13 @@
 import React from 'react';
 
 import Calculator from '../Calculator';
+import { S } from './styles';
 
 function App() {
   return (
-    <div>
+    <S.Container>
       <Calculator />
-    </div>
+    </S.Container>
   );
 }
 

@@ -12,10 +12,12 @@ function Calculator() {
   );
 
   return (
-    <S.Container>
-      <S.DisplaySection>{formatDisplayText(displayText)}</S.DisplaySection>
-      <ButtonSection />
-    </S.Container>
+    <S.OuterBox>
+      <S.InnerBox>
+        <S.DisplaySection>{formatDisplayText(displayText)}</S.DisplaySection>
+        <ButtonSection />
+      </S.InnerBox>
+    </S.OuterBox>
   );
 }
 
