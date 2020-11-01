@@ -11,19 +11,28 @@ import {
 
 export const S = {
   OuterBox: styled.div`
+    width: ${CALCULATE_CONTAINER_WIDTH}px;
     overflow: hidden;
-    width: 100%;
+    position: absolute;
+    left: 0;
+
+    @media (min-width: 480px) {
+      top: 0;
+    }
+
+    @media (max-width: 768px) {
+      width: ${CALCULATE_CONTAINER_MIDDLE_WIDTH}px;
+    }
 
     @media (max-width: 480px) {
-      overflow-y: scroll;
+      width: 100%;
       height: 50vh;
-      position: absolute;
-      left: 0;
+      overflow-y: scroll;
       bottom: 0;
     }
   `,
   InnerBox: styled.div`
-    width: ${CALCULATE_CONTAINER_WIDTH}px;
+    width: 100%;
     height: 100%;
     background: linear-gradient(${lightBlue}, ${darkBlue});
     padding: 1em;
@@ -32,11 +41,7 @@ export const S = {
     grid-template-rows: repeat(${TOTAL_ROWS}, 1fr);
     grid-gap: 0.5em;
 
-    @media (max-width: 768px) {
-      width: ${CALCULATE_CONTAINER_MIDDLE_WIDTH}px;
-    }
     @media (max-width: 480px) {
-      width: 100%;
       height: 100vh;
     }
   `,

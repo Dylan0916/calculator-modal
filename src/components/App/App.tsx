@@ -1,12 +1,24 @@
-import React from 'react';
+import React, { MouseEvent, useState } from 'react';
 
 import Calculator from '../Calculator';
 import { S } from './styles';
 
 function App() {
+  const [openCalculator, setOpenCalculator] = useState(false);
+
+  const toggleCalculator = (e: MouseEvent) => {
+    e.stopPropagation();
+    setOpenCalculator(prev => !prev);
+  };
+
+  const closeCalculator = () => {
+    setOpenCalculator(false);
+  };
+
   return (
-    <S.Container>
-      <Calculator />
+    <S.Container openCalculator={openCalculator} onClick={closeCalculator}>
+      <S.Button onClick={toggleCalculator}>Open Calculator</S.Button>
+      {openCalculator && <Calculator />}
     </S.Container>
   );
 }

@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { MouseEvent } from 'react';
 import { useSelector } from 'react-redux';
 
 import { RootState } from '../../redux';
@@ -11,8 +11,12 @@ function Calculator() {
     state => state.displayText
   );
 
+  const onOuterBoxClick = (e: MouseEvent) => {
+    e.stopPropagation();
+  };
+
   return (
-    <S.OuterBox>
+    <S.OuterBox onClick={onOuterBoxClick}>
       <S.InnerBox>
         <S.DisplaySection>{formatDisplayText(displayText)}</S.DisplaySection>
         <ButtonSection />
