@@ -53,6 +53,7 @@ export const S = {
     align-items: end;
     grid-row: span ${DISPLAY_ROW};
     grid-column: span ${TOTAL_COLUMNS};
+    user-select: none;
   `,
   ButtonSection: styled.div`
     grid-row: span ${TOTAL_ROWS - DISPLAY_ROW};

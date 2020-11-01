@@ -1,4 +1,13 @@
+import { RefObject } from 'react';
 import { Dispatch } from 'redux';
+import { Subscription, fromEvent } from 'rxjs';
+import {
+  concatAll,
+  filter,
+  map,
+  takeUntil,
+  withLatestFrom,
+} from 'rxjs/operators';
 
 import * as actions from '../../redux/actions';
 import { showNumberWithComma } from '../../utils/numberHelpers';
@@ -74,4 +83,61 @@ export function formatDisplayText(value: string) {
   }
 
   return showNumberWithComma(value);
+}
+
+function getOffset(
+  calculatorRef: RefObject<HTMLDivElement>,
+  downEvent: any
+): { x: number; y: number } {
+  const { path, offsetX, offsetY } = downEvent;
+
+  if (!calculatorRef.current) {
+    return { x: offsetX, y: offsetY };
+  }
+
+  const target = path[0];
+  const distanceX =
+    target.getBoundingClientRect().left +
+    offsetX -
+    calculatorRef.current.getBoundingClientRect().left;
+  const distanceY =
+    target.getBoundingClientRect().top +
+    offsetY -
+    calculatorRef.current.getBoundingClientRect().top;
+
+  return {
+    x: distanceX || offsetX,
+    y: distanceY || offsetY,
+  };
+}
+
+export function enableCalculatorDrag(calculatorRef: RefObject<HTMLDivElement>) {
+  if (!calculatorRef.current) {
+    return null;
+  }
+
+  const mouseDown$ = fromEvent(calculatorRef.current, 'mousedown');
+  const mouseMove$ = fromEvent(document, 'mousemove');
+  const mouseUp$ = fromEvent(document, 'mouseup');
+
+  return mouseDown$
+    .pipe(
+      filter((event: any) => {
+        return !event.path[0].classList.contains('calculator__btn');
+      }),
+      map(() => mouseMove$.pipe(takeUntil(mouseUp$))),
+      concatAll(),
+      withLatestFrom(mouseDown$, (move: any, down: any) => {
+        const { x: offsetX, y: offsetY } = getOffset(calculatorRef, down);
+
+        return {
+          x: move.clientX - offsetX,
+          y: move.clientY - offsetY,
+        };
+      })
+    )
+    .subscribe(position => {
+      calculatorRef.current!.style.top = `${position.y}px`;
+      calculatorRef.current!.style.left = `${position.x}px`;
+    });
 }

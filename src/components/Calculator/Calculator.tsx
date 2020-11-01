@@ -1,22 +1,33 @@
-import React, { MouseEvent } from 'react';
+import React, { MouseEvent, useEffect, useRef } from 'react';
 import { useSelector } from 'react-redux';
 
 import { RootState } from '../../redux';
 import ButtonSection from './ButtonSection';
 import { S } from './styles';
-import { formatDisplayText } from './utils';
+import { enableCalculatorDrag, formatDisplayText } from './utils';
 
 function Calculator() {
   const displayText = useSelector<RootState, string>(
     state => state.displayText
   );
+  const calculatorRef = useRef<HTMLDivElement>(null);
 
   const onOuterBoxClick = (e: MouseEvent) => {
     e.stopPropagation();
   };
 
+  useEffect(() => {
+    const subscription$ = enableCalculatorDrag(calculatorRef);
+
+    return () => {
+      if (subscription$) {
+        subscription$.unsubscribe();
+      }
+    };
+  }, []);
+
   return (
-    <S.OuterBox onClick={onOuterBoxClick}>
+    <S.OuterBox ref={calculatorRef} onClick={onOuterBoxClick}>
       <S.InnerBox>
         <S.DisplaySection>{formatDisplayText(displayText)}</S.DisplaySection>
         <ButtonSection />

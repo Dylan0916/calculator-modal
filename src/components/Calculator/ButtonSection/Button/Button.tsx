@@ -51,6 +51,7 @@ function Button(props: Props) {
 
   return (
     <S.Button
+      className="calculator__btn"
       key={defaultText}
       text={defaultText}
       buttonType={type}
