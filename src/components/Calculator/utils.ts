@@ -1,6 +1,6 @@
 import { RefObject } from 'react';
 import { Dispatch } from 'redux';
-import { Subscription, fromEvent } from 'rxjs';
+import { fromEvent } from 'rxjs';
 import {
   concatAll,
   filter,
@@ -85,7 +85,7 @@ export function formatDisplayText(value: string) {
   return showNumberWithComma(value);
 }
 
-function getOffset(
+export function getOffset(
   calculatorRef: RefObject<HTMLDivElement>,
   downEvent: any
 ): { x: number; y: number } {

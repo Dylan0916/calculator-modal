@@ -27,7 +27,11 @@ function Calculator() {
   }, []);
 
   return (
-    <S.OuterBox ref={calculatorRef} onClick={onOuterBoxClick}>
+    <S.OuterBox
+      data-testid="calculatorOuterBox"
+      ref={calculatorRef}
+      onClick={onOuterBoxClick}
+    >
       <S.InnerBox>
         <S.DisplaySection>{formatDisplayText(displayText)}</S.DisplaySection>
         <ButtonSection />

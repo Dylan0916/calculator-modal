@@ -16,7 +16,11 @@ function App() {
   };
 
   return (
-    <S.Container openCalculator={openCalculator} onClick={closeCalculator}>
+    <S.Container
+      data-testid="appContainer"
+      openCalculator={openCalculator}
+      onClick={closeCalculator}
+    >
       <S.Button onClick={toggleCalculator}>Open Calculator</S.Button>
       {openCalculator && <Calculator />}
     </S.Container>
